@@ -14,9 +14,6 @@ type Store struct {
 	db *sqlx.DB
 }
 
-//go:embed sql/schema.sql
-var schema string
-
 func NewStore(db *sqlx.DB) Store {
 	return Store{
 		db: db,
@@ -40,4 +37,16 @@ func (s Store) Create(p Payload) (string, error) {
 
 	shortURL := fmt.Sprintf("%s/%s", os.Getenv("BASE_URL"), urlPath)
 	return shortURL, nil
+}
+
+func (s Store) GetLongURL(encodedPath string) (TidyUrl, error) {
+	var tidyurl TidyUrl
+	err := s.db.Get(&tidyurl, "SELECT * FROM tidyurl WHERE short_url=$1", encodedPath)
+
+	if err != nil {
+		return TidyUrl{}, err
+	}
+
+	return tidyurl, nil
+
 }

@@ -13,6 +13,7 @@ func InitializeRouter(db *sqlx.DB) *httprouter.Router {
 		core: core.NewCore(db),
 	}
 
+	router.GET("/:id", base.Expand)
 	router.POST("/tidy", base.Tidy)
 
 	return router

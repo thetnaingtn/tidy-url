@@ -23,3 +23,12 @@ func (c Core) GenerateTidyUrl(p store.Payload) (string, error) {
 
 	return id, nil
 }
+
+func (c Core) GetLongURL(encodedString string) (store.TidyUrl, error) {
+	tidyurl, err := c.store.GetLongURL(encodedString)
+	if err != nil {
+		return store.TidyUrl{}, err
+	}
+
+	return tidyurl, nil
+}
