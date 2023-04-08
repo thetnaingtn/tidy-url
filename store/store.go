@@ -4,7 +4,6 @@ import (
 	_ "embed"
 	"encoding/base64"
 	"fmt"
-	"os"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
@@ -35,11 +34,21 @@ func (s Store) Create(p Payload) (string, error) {
 	tx.NamedExec(`INSERT INTO tidyurl (id,long_url,short_url) VALUES (:id,:long_url,:short_url)`, &t)
 	tx.Commit()
 
-	shortURL := fmt.Sprintf("%s/%s", os.Getenv("BASE_URL"), urlPath)
-	return shortURL, nil
+	return urlPath, nil
 }
 
-func (s Store) GetLongURL(encodedPath string) (TidyUrl, error) {
+func (s Store) GetRecordByLongURL(longURL string) (TidyUrl, error) {
+	var tidyurl TidyUrl
+
+	err := s.db.Get(&tidyurl, "SELECT * FROM tidyurl WHERE long_url=$1", longURL)
+	if err != nil {
+		return TidyUrl{}, err
+	}
+
+	return tidyurl, nil
+}
+
+func (s Store) GetRecordByShortURL(encodedPath string) (TidyUrl, error) {
 	var tidyurl TidyUrl
 	err := s.db.Get(&tidyurl, "SELECT * FROM tidyurl WHERE short_url=$1", encodedPath)
 
@@ -48,5 +57,4 @@ func (s Store) GetLongURL(encodedPath string) (TidyUrl, error) {
 	}
 
 	return tidyurl, nil
-
 }

@@ -1,6 +1,9 @@
 package core
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/jmoiron/sqlx"
 	"github.com/thetnaingtn/tidy-url/store"
 )
@@ -16,16 +19,21 @@ func NewCore(db *sqlx.DB) Core {
 }
 
 func (c Core) GenerateTidyUrl(p store.Payload) (string, error) {
-	id, err := c.store.Create(p)
+	tidyurl, _ := c.store.GetRecordByLongURL(p.LongURL)
+	if tidyurl.ShortURL != "" {
+		return fmt.Sprintf("%s/%s", os.Getenv("BASE_URL"), tidyurl.ShortURL), nil
+	}
+
+	urlPath, err := c.store.Create(p)
 	if err != nil {
 		return "", err
 	}
 
-	return id, nil
+	return fmt.Sprintf("%s/%s", os.Getenv("BASE_URL"), urlPath), nil
 }
 
 func (c Core) GetLongURL(encodedString string) (store.TidyUrl, error) {
-	tidyurl, err := c.store.GetLongURL(encodedString)
+	tidyurl, err := c.store.GetRecordByShortURL(encodedString)
 	if err != nil {
 		return store.TidyUrl{}, err
 	}
