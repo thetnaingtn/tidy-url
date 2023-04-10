@@ -34,9 +34,12 @@ func (h Handlers) StaticHandler(w http.ResponseWriter, r *http.Request, _ httpro
 
 	contentType := mime.TypeByExtension(filepath.Ext(path))
 	w.Header().Set("Content-Type", contentType)
-	if strings.HasPrefix(path, "static/") {
-		w.Header().Set("Cache-Control", "public, max-age=31536000")
-	}
+	/*
+		comment for development.
+		if strings.HasPrefix(path, "static/") {
+			w.Header().Set("Cache-Control", "public, max-age=31536000")
+		}
+	*/
 	stat, err := file.Stat()
 	if err == nil && stat.Size() > 0 {
 		w.Header().Set("Content-Length", fmt.Sprintf("%d", stat.Size()))
