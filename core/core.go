@@ -21,7 +21,7 @@ func NewCore(db *sqlx.DB) Core {
 func (c Core) GenerateTidyUrl(p store.Payload) (string, error) {
 	tidyurl, _ := c.store.GetRecordByLongURL(p.LongURL)
 	if tidyurl.ShortURL != "" {
-		return fmt.Sprintf("%s/%s", os.Getenv("BASE_URL"), tidyurl.ShortURL), nil
+		return fmt.Sprintf("%s/expand/%s", os.Getenv("BASE_URL"), tidyurl.ShortURL), nil
 	}
 
 	urlPath, err := c.store.Create(p)
@@ -29,7 +29,7 @@ func (c Core) GenerateTidyUrl(p store.Payload) (string, error) {
 		return "", err
 	}
 
-	return fmt.Sprintf("%s/%s", os.Getenv("BASE_URL"), urlPath), nil
+	return fmt.Sprintf("%s/expand/%s", os.Getenv("BASE_URL"), urlPath), nil
 }
 
 func (c Core) GetLongURL(encodedString string) (store.TidyUrl, error) {

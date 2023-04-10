@@ -26,7 +26,7 @@ func InitializeRouter(db *sqlx.DB, uiFS fs.FS) *httprouter.Router {
 
 	router.GET("/", base.StaticHandler)
 	router.GET("/expand/:id", base.Expand)
-	router.POST("/tidy", base.Tidy)
+	router.POST("/api/tidy", base.Tidy)
 
 	return router
 }
