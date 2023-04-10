@@ -8,14 +8,9 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/thetnaingtn/tidy-url/core"
 	response "github.com/thetnaingtn/tidy-url/foundation"
 	"github.com/thetnaingtn/tidy-url/store"
 )
-
-type Handlers struct {
-	core core.Core
-}
 
 type Response struct {
 	ShortURL string `json:"short_url"`
