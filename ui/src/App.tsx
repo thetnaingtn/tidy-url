@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useState } from "react";
+import React, { MouseEventHandler, useRef, useState } from "react";
 import useSWRMutation from "swr/mutation";
 
 import IconSend from "./icons/IconSend";
@@ -11,6 +11,7 @@ function App() {
     fetcher
   );
   const [longUrl, setLongUrl] = useState("");
+  const result = useRef<HTMLInputElement | null>(null);
 
   const handleTidyUp: MouseEventHandler<HTMLButtonElement> = () => {
     console.log(longUrl);
@@ -41,8 +42,21 @@ function App() {
       </div>
       {data && (
         <div className="flex p-1">
-          <span className="text-[#74a09e]">{data.short_url}</span>
-          <button className="ml-2" type="button">
+          <input
+            readOnly
+            ref={result}
+            className="text-[#74a09e] bg-transparent outline-none w-full"
+            value={data.short_url}
+          />
+
+          <button
+            onClick={() => {
+              result.current?.select();
+              document.execCommand("copy");
+            }}
+            className="ml-2"
+            type="button"
+          >
             <IconCopy />
           </button>
         </div>
