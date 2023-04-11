@@ -13,14 +13,15 @@ function App() {
   const [longUrl, setLongUrl] = useState("");
 
   const handleTidyUp: MouseEventHandler<HTMLButtonElement> = () => {
+    console.log(longUrl);
     trigger({
       long_url: longUrl,
     });
   };
 
   return (
-    <div className="w-screen h-screen bg-[#ccebe3] flex flex-col justify-center items-center">
-      <div className="flex">
+    <div className="w-screen h-screen bg-[#ccebe3] flex flex-col justify-center items-center gap-3">
+      <div className="flex relative">
         <input
           type="text"
           value={longUrl}
@@ -30,14 +31,18 @@ function App() {
           placeholder="Paste Your Long URL Here..."
           className="outline-none bg-slate-50 border-solid border-[#a5c3c2] border rounded-md w-96 h-9 text-ellipsis py-2 pl-2 pr-7"
         />
-        <button type="button" className="ml-[-30px]" onClick={handleTidyUp}>
+        <button
+          type="button"
+          className="absolute right-2 top-[0.406rem]"
+          onClick={handleTidyUp}
+        >
           <IconSend />
         </button>
       </div>
       {data && (
-        <div className="flex">
-          <p>{data.short_url}</p>
-          <button type="button">
+        <div className="flex p-1">
+          <span className="text-[#a5c3c2]">{data.short_url}</span>
+          <button className="ml-2" type="button">
             <IconCopy />
           </button>
         </div>
