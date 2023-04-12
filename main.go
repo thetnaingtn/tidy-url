@@ -25,9 +25,9 @@ func main() {
 
 	db, err := sqlx.Connect("postgres", os.Getenv("DB_CONNECTION_URL"))
 	if err != nil {
-		log.Println(err)
+		log.Println("Can't connect to DB", err)
 	}
 
 	router := handlers.InitializeRouter(db, uiFS)
-	log.Fatal(http.ListenAndServe(":5000", router))
+	log.Fatal(http.ListenAndServe(os.Getenv("PORT"), router))
 }
