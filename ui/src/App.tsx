@@ -40,11 +40,11 @@ function App() {
         </button>
       </div>
       {data && (
-        <div className="flex p-1">
+        <div className="flex">
           <input
             readOnly
             ref={result}
-            className="text-[#74a09e] bg-transparent outline-none w-full"
+            className="text-[#74a09e] bg-transparent outline-none w-96"
             value={data.short_url}
           />
 
@@ -53,7 +53,6 @@ function App() {
               result.current?.select();
               document.execCommand("copy");
             }}
-            className="ml-2"
             type="button"
           >
             <IconCopy />
