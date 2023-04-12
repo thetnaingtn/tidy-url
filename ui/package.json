@@ -7,6 +7,7 @@
     "dev": "vite",
     "tailwind:watch": "tailwindcss -i ./src/input.css -o ./src/output.css --watch",
     "build": "tsc && vite build",
+    "build:watch": "yarn build --watch",
     "preview": "vite preview"
   },
   "dependencies": {
