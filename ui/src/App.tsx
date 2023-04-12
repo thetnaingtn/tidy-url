@@ -7,14 +7,13 @@ import fetcher from "./fetcher";
 
 function App() {
   const { data, trigger } = useSWRMutation(
-    `${import.meta.env.VITE_API_ENDPOINT}/tidy`,
+    `${import.meta.env.VITE_API_ENDPOINT}/api/tidy`,
     fetcher
   );
   const [longUrl, setLongUrl] = useState("");
   const result = useRef<HTMLInputElement | null>(null);
 
   const handleTidyUp: MouseEventHandler<HTMLButtonElement> = () => {
-    console.log(longUrl);
     trigger({
       long_url: longUrl,
     });
