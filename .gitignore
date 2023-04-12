@@ -29,3 +29,6 @@ dist-ssr
 
 # Environment variables
 .env
+
+# Binary
+tidy-url
