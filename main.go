@@ -4,6 +4,7 @@ import (
 	"io/fs"
 	"log"
 	"net/http"
+	"os"
 
 	"embed"
 
@@ -22,7 +23,7 @@ func main() {
 		log.Println(err)
 	}
 
-	db, err := sqlx.Connect("postgres", "user=postgres dbname=tidyurl password=postgres sslmode=disable")
+	db, err := sqlx.Connect("postgres", os.Getenv("DB_CONNECTION_URL"))
 	if err != nil {
 		log.Println(err)
 	}
