@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"encoding/base64"
 	"fmt"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
@@ -25,13 +26,16 @@ func (s Store) Create(p Payload) (string, error) {
 	urlPath := base64.StdEncoding.EncodeToString([]byte(fmt.Sprint(id.ID())))
 
 	t := TidyUrl{
-		Id:       id.String(),
-		LongURL:  p.LongURL,
-		ShortURL: urlPath,
+		Id:        id.String(),
+		LongURL:   p.LongURL,
+		ShortURL:  urlPath,
+		CreatedAt: time.Now(),
 	}
 
 	tx := s.db.MustBegin()
-	tx.NamedExec(`INSERT INTO tidyurl (id,long_url,short_url) VALUES (:id,:long_url,:short_url)`, &t)
+	if _, err := tx.NamedExec(`INSERT INTO tidyurl (id,long_url,short_url,created_at) VALUES (:id,:long_url,:short_url,:created_at)`, &t); err != nil {
+		return "", err
+	}
 	tx.Commit()
 
 	return urlPath, nil
