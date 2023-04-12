@@ -16,6 +16,5 @@ RUN go build .
 
 FROM alpine:3.14
 WORKDIR /tidyurl
-COPY --from=UI /ui/dist /tidyurl/ui/dist
 COPY --from=APP /tidyurl/tidy-url /tidyurl/tidy-url
 CMD [ "./tidy-url" ]
