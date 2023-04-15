@@ -28,7 +28,7 @@ function App() {
           onChange={(e) => {
             setLongUrl(e.target.value);
           }}
-          placeholder="Paste Your Long URL Here..."
+          placeholder="Paste your long URL here..."
           className="outline-none bg-slate-50 border-solid border-[#a5c3c2] border rounded-md w-96 h-9 text-ellipsis py-2 pl-2 pr-7 text-[#a5c3c2]"
         />
         <button
