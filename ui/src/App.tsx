@@ -33,7 +33,8 @@ function App() {
         />
         <button
           type="button"
-          className="absolute right-2 top-[0.406rem]"
+          className="absolute right-2 top-[0.406rem] disabled:cursor-not-allowed"
+          disabled={!longUrl}
           onClick={handleTidyUp}
         >
           <IconSend />
