@@ -4,7 +4,7 @@ import useSWRMutation from "swr/mutation";
 import IconSend from "./icons/IconSend";
 import IconCopy from "./icons/IconCopy";
 import fetcher from "./fetcher";
-import GithubCorner from "./GithubCorner";
+import GithubCorner from "./components/GithubCorner/GithubCorner";
 
 function App() {
   const { data, trigger } = useSWRMutation(
