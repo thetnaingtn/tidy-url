@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useRef, useState } from "react";
+import { MouseEventHandler, useRef, useState } from "react";
 import useSWRMutation from "swr/mutation";
 
 import IconSend from "./icons/IconSend";
