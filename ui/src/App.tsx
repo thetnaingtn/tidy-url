@@ -5,6 +5,7 @@ import IconSend from "./icons/IconSend";
 import IconCopy from "./icons/IconCopy";
 import fetcher from "./fetcher";
 import GithubCorner from "./components/GithubCorner/GithubCorner";
+import { validateURL } from "./util";
 
 function App() {
   const { data, trigger } = useSWRMutation(
@@ -13,6 +14,8 @@ function App() {
   );
   const [longUrl, setLongUrl] = useState("");
   const result = useRef<HTMLInputElement | null>(null);
+
+  const disableButton = !longUrl || !validateURL(longUrl);
 
   const handleTidyUp: MouseEventHandler<HTMLButtonElement> = () => {
     trigger({
@@ -37,7 +40,7 @@ function App() {
           <button
             type="button"
             className="absolute right-5 top-[0.6875rem] disabled:cursor-not-allowed"
-            disabled={!longUrl}
+            disabled={disableButton}
             onClick={handleTidyUp}
           >
             <IconSend />
