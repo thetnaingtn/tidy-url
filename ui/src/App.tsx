@@ -39,7 +39,7 @@ function App() {
           />
           <button
             type="button"
-            className="absolute right-5 top-[0.6875rem] disabled:cursor-not-allowed"
+            className="absolute right-5 sm:right-1 top-[0.6875rem] disabled:cursor-not-allowed"
             disabled={disableButton}
             onClick={handleTidyUp}
           >
