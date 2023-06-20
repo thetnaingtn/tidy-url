@@ -24,7 +24,7 @@ function App() {
     <>
       <GithubCorner />
       <div className="w-screen h-screen bg-[#ccebe3] flex flex-col justify-center items-center gap-3">
-        <div className="flex relative">
+        <div className="flex relative w-full px-4 sm:w-min sm:px-0">
           <input
             type="text"
             value={longUrl}
@@ -36,7 +36,7 @@ function App() {
           />
           <button
             type="button"
-            className="absolute right-2 top-[0.6875rem] disabled:cursor-not-allowed"
+            className="absolute right-5 top-[0.6875rem] disabled:cursor-not-allowed"
             disabled={!longUrl}
             onClick={handleTidyUp}
           >
