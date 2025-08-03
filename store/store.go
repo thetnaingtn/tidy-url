@@ -8,16 +8,22 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
+	"github.com/thetnaingtn/tidy-url/internal/config"
 )
 
 type Store struct {
 	db *sqlx.DB
 }
 
-func NewStore(db *sqlx.DB) Store {
-	return Store{
-		db: db,
+func NewStore(cfg *config.Config) (*Store, error) {
+	db, err := sqlx.Connect("postgres", cfg.DSN)
+	if err != nil {
+		return nil, err
 	}
+
+	return &Store{
+		db: db,
+	}, nil
 }
 
 func (s Store) Create(p Payload) (string, error) {

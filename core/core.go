@@ -12,9 +12,11 @@ type Core struct {
 	store store.Store
 }
 
+// TODO: FIX LATER
 func NewCore(db *sqlx.DB) Core {
+	store, _ := store.NewStore(nil)
 	return Core{
-		store: store.NewStore(db),
+		store: *store,
 	}
 }
 
