@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log/slog"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
@@ -39,8 +40,10 @@ func main() {
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 
 	if err := s.Start(); err != nil {
-		cancel()
-		slog.Error("failed to start server", "error", err)
+		if err != http.ErrServerClosed {
+			cancel()
+			slog.Error("failed to start server", "error", err)
+		}
 	}
 
 	go func() {
