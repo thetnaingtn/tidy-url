@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package api.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "gen/api/v1;v1";
+
+message ShortenUrlRequest {
+  string long_url = 1;
+}
+
+message ShortenUrlResponse {
+  string short_url = 1;
+}
+
+service UrlShortener {
+  rpc ShortenUrl(ShortenUrlRequest) returns (ShortenUrlResponse){
+    option (google.api.http) = {
+        post: "/v1/shorten"
+        body: "*"
+    };
+  }
+}

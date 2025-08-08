@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "tailwind:watch": "tailwindcss -i ./src/input.css -o ./src/output.css --watch",
-    "build": "tsc && vite build",
+    "build": "tsc -b && vite build --outDir=../cmd/dist --emptyOutDir",
     "build:watch": "yarn build --watch",
     "preview": "vite preview"
   },

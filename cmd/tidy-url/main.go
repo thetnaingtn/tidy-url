@@ -1,45 +1,54 @@
 package main
 
 import (
+	"context"
+	"log/slog"
 	"os"
+	"os/signal"
+	"syscall"
 
 	_ "github.com/lib/pq"
 	"github.com/thetnaingtn/tidy-url/internal/config"
 	"github.com/thetnaingtn/tidy-url/server"
-	"github.com/thetnaingtn/tidy-url/store"
+	"github.com/thetnaingtn/tidy-url/store/db/postgres"
 )
 
 func main() {
-
-	// uiFS, err := fs.Sub(UI, "ui/dist")
-	// if err != nil {
-	// 	log.Println(err)
-	// }
-
-	// db, err := sqlx.Connect("postgres", os.Getenv("DB_CONNECTION_URL"))
-	// if err != nil {
-	// 	log.Println("Can't connect to DB", err)
-	// }
-
-	// router := handlers.InitializeRouter(db, uiFS)
-	// log.Fatal(http.ListenAndServe(os.Getenv("PORT"), router))
-
 	config := &config.Config{
 		Addr:    getEnv("ADDR", ""),
-		DSN:     getEnv("DB_CONNECTION_URL", "postgres://user:password@localhost:5432/tidyurl?sslmode=disable"),
+		DSN:     getEnv("DB_CONNECTION_URL", "postgres://root:pa55w0rd@localhost:5432/tidyurl?sslmode=disable"),
 		BaseURL: getEnv("BASE_URL", ""),
 		Port:    getEnv("PORT", "8080"),
 	}
 
-	store, err := store.NewStore(config)
+	db, err := postgres.NewDB(config)
 	if err != nil {
 		panic(err)
 	}
 
-	if err := server.NewServer(store, config).Start(); err != nil {
-		panic(err)
+	ctx, cancel := context.WithCancel(context.Background())
+
+	s, err := server.NewServer(ctx, db, config)
+	if err != nil {
+		cancel()
+		slog.Error("failed to create server", "error", err)
 	}
 
+	c := make(chan os.Signal, 1)
+
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+
+	if err := s.Start(); err != nil {
+		cancel()
+		slog.Error("failed to start server", "error", err)
+	}
+
+	go func() {
+		<-c
+		cancel()
+	}()
+
+	<-ctx.Done()
 }
 
 func getEnv(key, defaultValue string) string {
