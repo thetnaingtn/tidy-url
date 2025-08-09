@@ -17,7 +17,7 @@ import (
 )
 
 type APIV1Service struct {
-	v1pb.UnimplementedUrlShortenerServer
+	v1pb.UnimplementedTidyUrlServiceServer
 	store      *store.Store
 	grpcServer *grpc.Server
 	config     *config.Config
@@ -30,7 +30,7 @@ func NewAPIV1Service(store *store.Store, config *config.Config, server *grpc.Ser
 		config:     config,
 	}
 
-	v1pb.RegisterUrlShortenerServer(server, apiService)
+	v1pb.RegisterTidyUrlServiceServer(server, apiService)
 
 	return apiService
 }
@@ -48,7 +48,7 @@ func (s *APIV1Service) RegisterGateway(ctx context.Context, mux *http.ServeMux) 
 
 	gwmux := runtime.NewServeMux()
 
-	if err := v1pb.RegisterUrlShortenerHandler(ctx, gwmux, conn); err != nil {
+	if err := v1pb.RegisterTidyUrlServiceHandler(ctx, gwmux, conn); err != nil {
 		return err
 	}
 
