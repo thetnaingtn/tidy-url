@@ -13,11 +13,11 @@ import (
 var embedFiles embed.FS
 
 type FrontendService struct {
-	Store  store.Store
+	Store  *store.Store
 	Config *config.Config
 }
 
-func NewFrontendService(store store.Store, config *config.Config) *FrontendService {
+func NewFrontendService(store *store.Store, config *config.Config) *FrontendService {
 	return &FrontendService{
 		Store:  store,
 		Config: config,

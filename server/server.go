@@ -17,14 +17,14 @@ import (
 )
 
 type Server struct {
-	Store  store.Store
+	Store  *store.Store
 	Config *config.Config
 
 	grpcServer *grpc.Server
 	server     http.Server
 }
 
-func NewServer(ctx context.Context, store store.Store, config *config.Config) (*Server, error) {
+func NewServer(ctx context.Context, store *store.Store, config *config.Config) (*Server, error) {
 	mux := http.NewServeMux()
 
 	grpcServer := grpc.NewServer(

@@ -1,13 +1,28 @@
 package postgres
 
-func (db *DB) CreateTidyUrl(p any) (string, error) {
-	return "", nil
+import (
+	"context"
+
+	"github.com/thetnaingtn/tidy-url/store"
+)
+
+var _ store.Driver = (*DB)(nil)
+
+func (driver *DB) Create(ctx context.Context, t *store.TidyUrl) error {
+	stmt := `
+		INSERT INTO tidy_urls (long_url, encoded_str)
+		VALUES ($1, $2)
+		RETURNING id, created_at
+	`
+
+	args := []any{t.LongUrl, t.EncodedStr}
+
+	return driver.db.QueryRowContext(ctx, stmt, args...).Scan(
+		&t.Id,
+		&t.CreatedAt,
+	)
 }
 
-func (db *DB) GetTidyUrlByLongUrl(longUrl string) (string, error) {
-	return "", nil
-}
-
-func (db *DB) GetTidyUrlByShortUrl(shortUrl string) (string, error) {
-	return "", nil
+func (driver *DB) FindTidyUrl(ctx context.Context) (*store.TidyUrl, error) {
+	panic("not implemented")
 }

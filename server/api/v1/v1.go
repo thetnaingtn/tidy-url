@@ -18,12 +18,12 @@ import (
 
 type APIV1Service struct {
 	v1pb.UnimplementedUrlShortenerServer
-	store      store.Store
+	store      *store.Store
 	grpcServer *grpc.Server
 	config     *config.Config
 }
 
-func NewAPIV1Service(store store.Store, config *config.Config, server *grpc.Server) *APIV1Service {
+func NewAPIV1Service(store *store.Store, config *config.Config, server *grpc.Server) *APIV1Service {
 	apiService := &APIV1Service{
 		store:      store,
 		grpcServer: server,

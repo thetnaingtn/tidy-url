@@ -11,7 +11,8 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/thetnaingtn/tidy-url/internal/config"
 	"github.com/thetnaingtn/tidy-url/server"
-	"github.com/thetnaingtn/tidy-url/store/db/postgres"
+	"github.com/thetnaingtn/tidy-url/store"
+	"github.com/thetnaingtn/tidy-url/store/db"
 )
 
 func main() {
@@ -22,14 +23,17 @@ func main() {
 		Port:    getEnv("PORT", "8080"),
 	}
 
-	db, err := postgres.NewDB(config)
+	driver, err := db.NewDBDriver(config)
+
 	if err != nil {
 		panic(err)
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
 
-	s, err := server.NewServer(ctx, db, config)
+	store := store.NewStore(config, driver)
+
+	s, err := server.NewServer(ctx, store, config)
 	if err != nil {
 		cancel()
 		slog.Error("failed to create server", "error", err)
