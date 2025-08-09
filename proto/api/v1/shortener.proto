@@ -3,6 +3,7 @@ syntax = "proto3";
 package api.v1;
 
 import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
 
 option go_package = "gen/api/v1;v1";
 
@@ -10,15 +11,32 @@ message ShortenUrlRequest {
   string long_url = 1;
 }
 
-message ShortenUrlResponse {
-  string short_url = 1;
+message TidyUrl {
+  string id = 1;
+  string long_url = 2;
+  string encoded_str = 3;
+  google.protobuf.Timestamp created_at = 4;
 }
 
-service UrlShortener {
-  rpc ShortenUrl(ShortenUrlRequest) returns (ShortenUrlResponse){
+message ExpandTidyUrlRequest {
+  string id = 1;
+} 
+
+message ExpandTidyUrlResponse {
+  string long_url = 1;
+}
+
+service TidyUrlService {
+  rpc MakeTidyUrl(ShortenUrlRequest) returns (TidyUrl){
     option (google.api.http) = {
-        post: "/v1/shorten"
+        post: "/v1/tidy"
         body: "*"
+    };
+  }
+
+  rpc ExpandTidyUrl(ExpandTidyUrlRequest) returns (ExpandTidyUrlResponse) {
+    option (google.api.http) = {
+      get: "/v1/expand/{id}"
     };
   }
 }

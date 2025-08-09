@@ -35,7 +35,7 @@ var (
 	_ = metadata.Join
 )
 
-func request_UrlShortener_ShortenUrl_0(ctx context.Context, marshaler runtime.Marshaler, client UrlShortenerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_TidyUrlService_MakeTidyUrl_0(ctx context.Context, marshaler runtime.Marshaler, client TidyUrlServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq ShortenUrlRequest
 		metadata runtime.ServerMetadata
@@ -46,11 +46,11 @@ func request_UrlShortener_ShortenUrl_0(ctx context.Context, marshaler runtime.Ma
 	if req.Body != nil {
 		_, _ = io.Copy(io.Discard, req.Body)
 	}
-	msg, err := client.ShortenUrl(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.MakeTidyUrl(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 }
 
-func local_request_UrlShortener_ShortenUrl_0(ctx context.Context, marshaler runtime.Marshaler, server UrlShortenerServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_TidyUrlService_MakeTidyUrl_0(ctx context.Context, marshaler runtime.Marshaler, server TidyUrlServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq ShortenUrlRequest
 		metadata runtime.ServerMetadata
@@ -58,43 +58,102 @@ func local_request_UrlShortener_ShortenUrl_0(ctx context.Context, marshaler runt
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	msg, err := server.ShortenUrl(ctx, &protoReq)
+	msg, err := server.MakeTidyUrl(ctx, &protoReq)
 	return msg, metadata, err
 }
 
-// RegisterUrlShortenerHandlerServer registers the http handlers for service UrlShortener to "mux".
-// UnaryRPC     :call UrlShortenerServer directly.
+func request_TidyUrlService_ExpandTidyUrl_0(ctx context.Context, marshaler runtime.Marshaler, client TidyUrlServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq ExpandTidyUrlRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	msg, err := client.ExpandTidyUrl(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_TidyUrlService_ExpandTidyUrl_0(ctx context.Context, marshaler runtime.Marshaler, server TidyUrlServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq ExpandTidyUrlRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	msg, err := server.ExpandTidyUrl(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+// RegisterTidyUrlServiceHandlerServer registers the http handlers for service TidyUrlService to "mux".
+// UnaryRPC     :call TidyUrlServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterUrlShortenerHandlerFromEndpoint instead.
+// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterTidyUrlServiceHandlerFromEndpoint instead.
 // GRPC interceptors will not work for this type of registration. To use interceptors, you must use the "runtime.WithMiddlewares" option in the "runtime.NewServeMux" call.
-func RegisterUrlShortenerHandlerServer(ctx context.Context, mux *runtime.ServeMux, server UrlShortenerServer) error {
-	mux.Handle(http.MethodPost, pattern_UrlShortener_ShortenUrl_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+func RegisterTidyUrlServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server TidyUrlServiceServer) error {
+	mux.Handle(http.MethodPost, pattern_TidyUrlService_MakeTidyUrl_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.v1.UrlShortener/ShortenUrl", runtime.WithHTTPPathPattern("/v1/shorten"))
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.v1.TidyUrlService/MakeTidyUrl", runtime.WithHTTPPathPattern("/v1/tidy"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_UrlShortener_ShortenUrl_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_TidyUrlService_MakeTidyUrl_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_UrlShortener_ShortenUrl_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TidyUrlService_MakeTidyUrl_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodGet, pattern_TidyUrlService_ExpandTidyUrl_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/api.v1.TidyUrlService/ExpandTidyUrl", runtime.WithHTTPPathPattern("/v1/expand/{id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_TidyUrlService_ExpandTidyUrl_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_TidyUrlService_ExpandTidyUrl_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 
 	return nil
 }
 
-// RegisterUrlShortenerHandlerFromEndpoint is same as RegisterUrlShortenerHandler but
+// RegisterTidyUrlServiceHandlerFromEndpoint is same as RegisterTidyUrlServiceHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterUrlShortenerHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+func RegisterTidyUrlServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.NewClient(endpoint, opts...)
 	if err != nil {
 		return err
@@ -113,45 +172,64 @@ func RegisterUrlShortenerHandlerFromEndpoint(ctx context.Context, mux *runtime.S
 			}
 		}()
 	}()
-	return RegisterUrlShortenerHandler(ctx, mux, conn)
+	return RegisterTidyUrlServiceHandler(ctx, mux, conn)
 }
 
-// RegisterUrlShortenerHandler registers the http handlers for service UrlShortener to "mux".
+// RegisterTidyUrlServiceHandler registers the http handlers for service TidyUrlService to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterUrlShortenerHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return RegisterUrlShortenerHandlerClient(ctx, mux, NewUrlShortenerClient(conn))
+func RegisterTidyUrlServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterTidyUrlServiceHandlerClient(ctx, mux, NewTidyUrlServiceClient(conn))
 }
 
-// RegisterUrlShortenerHandlerClient registers the http handlers for service UrlShortener
-// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "UrlShortenerClient".
-// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "UrlShortenerClient"
+// RegisterTidyUrlServiceHandlerClient registers the http handlers for service TidyUrlService
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "TidyUrlServiceClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "TidyUrlServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "UrlShortenerClient" to call the correct interceptors. This client ignores the HTTP middlewares.
-func RegisterUrlShortenerHandlerClient(ctx context.Context, mux *runtime.ServeMux, client UrlShortenerClient) error {
-	mux.Handle(http.MethodPost, pattern_UrlShortener_ShortenUrl_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+// "TidyUrlServiceClient" to call the correct interceptors. This client ignores the HTTP middlewares.
+func RegisterTidyUrlServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client TidyUrlServiceClient) error {
+	mux.Handle(http.MethodPost, pattern_TidyUrlService_MakeTidyUrl_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/api.v1.UrlShortener/ShortenUrl", runtime.WithHTTPPathPattern("/v1/shorten"))
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/api.v1.TidyUrlService/MakeTidyUrl", runtime.WithHTTPPathPattern("/v1/tidy"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_UrlShortener_ShortenUrl_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_TidyUrlService_MakeTidyUrl_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		forward_UrlShortener_ShortenUrl_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TidyUrlService_MakeTidyUrl_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodGet, pattern_TidyUrlService_ExpandTidyUrl_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/api.v1.TidyUrlService/ExpandTidyUrl", runtime.WithHTTPPathPattern("/v1/expand/{id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_TidyUrlService_ExpandTidyUrl_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_TidyUrlService_ExpandTidyUrl_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	return nil
 }
 
 var (
-	pattern_UrlShortener_ShortenUrl_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "shorten"}, ""))
+	pattern_TidyUrlService_MakeTidyUrl_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "tidy"}, ""))
+	pattern_TidyUrlService_ExpandTidyUrl_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "expand", "id"}, ""))
 )
 
 var (
-	forward_UrlShortener_ShortenUrl_0 = runtime.ForwardResponseMessage
+	forward_TidyUrlService_MakeTidyUrl_0   = runtime.ForwardResponseMessage
+	forward_TidyUrlService_ExpandTidyUrl_0 = runtime.ForwardResponseMessage
 )

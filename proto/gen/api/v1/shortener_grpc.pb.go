@@ -19,101 +19,139 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UrlShortener_ShortenUrl_FullMethodName = "/api.v1.UrlShortener/ShortenUrl"
+	TidyUrlService_MakeTidyUrl_FullMethodName   = "/api.v1.TidyUrlService/MakeTidyUrl"
+	TidyUrlService_ExpandTidyUrl_FullMethodName = "/api.v1.TidyUrlService/ExpandTidyUrl"
 )
 
-// UrlShortenerClient is the client API for UrlShortener service.
+// TidyUrlServiceClient is the client API for TidyUrlService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type UrlShortenerClient interface {
-	ShortenUrl(ctx context.Context, in *ShortenUrlRequest, opts ...grpc.CallOption) (*ShortenUrlResponse, error)
+type TidyUrlServiceClient interface {
+	MakeTidyUrl(ctx context.Context, in *ShortenUrlRequest, opts ...grpc.CallOption) (*TidyUrl, error)
+	ExpandTidyUrl(ctx context.Context, in *ExpandTidyUrlRequest, opts ...grpc.CallOption) (*ExpandTidyUrlResponse, error)
 }
 
-type urlShortenerClient struct {
+type tidyUrlServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewUrlShortenerClient(cc grpc.ClientConnInterface) UrlShortenerClient {
-	return &urlShortenerClient{cc}
+func NewTidyUrlServiceClient(cc grpc.ClientConnInterface) TidyUrlServiceClient {
+	return &tidyUrlServiceClient{cc}
 }
 
-func (c *urlShortenerClient) ShortenUrl(ctx context.Context, in *ShortenUrlRequest, opts ...grpc.CallOption) (*ShortenUrlResponse, error) {
+func (c *tidyUrlServiceClient) MakeTidyUrl(ctx context.Context, in *ShortenUrlRequest, opts ...grpc.CallOption) (*TidyUrl, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ShortenUrlResponse)
-	err := c.cc.Invoke(ctx, UrlShortener_ShortenUrl_FullMethodName, in, out, cOpts...)
+	out := new(TidyUrl)
+	err := c.cc.Invoke(ctx, TidyUrlService_MakeTidyUrl_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// UrlShortenerServer is the server API for UrlShortener service.
-// All implementations must embed UnimplementedUrlShortenerServer
-// for forward compatibility.
-type UrlShortenerServer interface {
-	ShortenUrl(context.Context, *ShortenUrlRequest) (*ShortenUrlResponse, error)
-	mustEmbedUnimplementedUrlShortenerServer()
+func (c *tidyUrlServiceClient) ExpandTidyUrl(ctx context.Context, in *ExpandTidyUrlRequest, opts ...grpc.CallOption) (*ExpandTidyUrlResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ExpandTidyUrlResponse)
+	err := c.cc.Invoke(ctx, TidyUrlService_ExpandTidyUrl_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
-// UnimplementedUrlShortenerServer must be embedded to have
+// TidyUrlServiceServer is the server API for TidyUrlService service.
+// All implementations must embed UnimplementedTidyUrlServiceServer
+// for forward compatibility.
+type TidyUrlServiceServer interface {
+	MakeTidyUrl(context.Context, *ShortenUrlRequest) (*TidyUrl, error)
+	ExpandTidyUrl(context.Context, *ExpandTidyUrlRequest) (*ExpandTidyUrlResponse, error)
+	mustEmbedUnimplementedTidyUrlServiceServer()
+}
+
+// UnimplementedTidyUrlServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedUrlShortenerServer struct{}
+type UnimplementedTidyUrlServiceServer struct{}
 
-func (UnimplementedUrlShortenerServer) ShortenUrl(context.Context, *ShortenUrlRequest) (*ShortenUrlResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ShortenUrl not implemented")
+func (UnimplementedTidyUrlServiceServer) MakeTidyUrl(context.Context, *ShortenUrlRequest) (*TidyUrl, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MakeTidyUrl not implemented")
 }
-func (UnimplementedUrlShortenerServer) mustEmbedUnimplementedUrlShortenerServer() {}
-func (UnimplementedUrlShortenerServer) testEmbeddedByValue()                      {}
+func (UnimplementedTidyUrlServiceServer) ExpandTidyUrl(context.Context, *ExpandTidyUrlRequest) (*ExpandTidyUrlResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ExpandTidyUrl not implemented")
+}
+func (UnimplementedTidyUrlServiceServer) mustEmbedUnimplementedTidyUrlServiceServer() {}
+func (UnimplementedTidyUrlServiceServer) testEmbeddedByValue()                        {}
 
-// UnsafeUrlShortenerServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to UrlShortenerServer will
+// UnsafeTidyUrlServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TidyUrlServiceServer will
 // result in compilation errors.
-type UnsafeUrlShortenerServer interface {
-	mustEmbedUnimplementedUrlShortenerServer()
+type UnsafeTidyUrlServiceServer interface {
+	mustEmbedUnimplementedTidyUrlServiceServer()
 }
 
-func RegisterUrlShortenerServer(s grpc.ServiceRegistrar, srv UrlShortenerServer) {
-	// If the following call pancis, it indicates UnimplementedUrlShortenerServer was
+func RegisterTidyUrlServiceServer(s grpc.ServiceRegistrar, srv TidyUrlServiceServer) {
+	// If the following call pancis, it indicates UnimplementedTidyUrlServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&UrlShortener_ServiceDesc, srv)
+	s.RegisterService(&TidyUrlService_ServiceDesc, srv)
 }
 
-func _UrlShortener_ShortenUrl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TidyUrlService_MakeTidyUrl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ShortenUrlRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UrlShortenerServer).ShortenUrl(ctx, in)
+		return srv.(TidyUrlServiceServer).MakeTidyUrl(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UrlShortener_ShortenUrl_FullMethodName,
+		FullMethod: TidyUrlService_MakeTidyUrl_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UrlShortenerServer).ShortenUrl(ctx, req.(*ShortenUrlRequest))
+		return srv.(TidyUrlServiceServer).MakeTidyUrl(ctx, req.(*ShortenUrlRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// UrlShortener_ServiceDesc is the grpc.ServiceDesc for UrlShortener service.
+func _TidyUrlService_ExpandTidyUrl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ExpandTidyUrlRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TidyUrlServiceServer).ExpandTidyUrl(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TidyUrlService_ExpandTidyUrl_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TidyUrlServiceServer).ExpandTidyUrl(ctx, req.(*ExpandTidyUrlRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// TidyUrlService_ServiceDesc is the grpc.ServiceDesc for TidyUrlService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var UrlShortener_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.v1.UrlShortener",
-	HandlerType: (*UrlShortenerServer)(nil),
+var TidyUrlService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "api.v1.TidyUrlService",
+	HandlerType: (*TidyUrlServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ShortenUrl",
-			Handler:    _UrlShortener_ShortenUrl_Handler,
+			MethodName: "MakeTidyUrl",
+			Handler:    _TidyUrlService_MakeTidyUrl_Handler,
+		},
+		{
+			MethodName: "ExpandTidyUrl",
+			Handler:    _TidyUrlService_ExpandTidyUrl_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
