@@ -6,5 +6,5 @@ import (
 
 type Driver interface {
 	Create(ctx context.Context, p *TidyUrl) error
-	FindTidyUrl(ctx context.Context) (*TidyUrl, error)
+	FindTidyUrl(ctx context.Context, filters *Filters) (*TidyUrl, error)
 }

@@ -23,6 +23,27 @@ func (driver *DB) Create(ctx context.Context, t *store.TidyUrl) error {
 	)
 }
 
-func (driver *DB) FindTidyUrl(ctx context.Context) (*store.TidyUrl, error) {
-	panic("not implemented")
+func (driver *DB) FindTidyUrl(ctx context.Context, filter *store.Filters) (*store.TidyUrl, error) {
+	stmt := `
+		SELECT id, long_url, encoded_str, created_at
+		FROM tidy_url
+		WHERE encoded_str = $1 OR long_url = $2
+		LIMIT 1
+	`
+
+	args := []any{filter.EncodedStr, filter.LongUrl}
+
+	tidyUrl := &store.TidyUrl{}
+	err := driver.db.QueryRowContext(ctx, stmt, args...).Scan(
+		&tidyUrl.Id,
+		&tidyUrl.LongUrl,
+		&tidyUrl.EncodedStr,
+		&tidyUrl.CreatedAt,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return tidyUrl, nil
 }
