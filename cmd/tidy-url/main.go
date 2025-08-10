@@ -18,7 +18,7 @@ import (
 func main() {
 	config := &config.Config{
 		Addr:    getEnv("ADDR", ""),
-		DSN:     getEnv("DB_CONNECTION_URL", "postgres://root:pa55w0rd@localhost:5432/tidyurl?sslmode=disable"),
+		DSN:     getEnv("DB_CONNECTION_URL", "postgres://tidyurl:pa55w0rd@localhost:5432/tidyurl?sslmode=disable"),
 		BaseURL: getEnv("BASE_URL", ""),
 		Port:    getEnv("PORT", "8080"),
 	}
