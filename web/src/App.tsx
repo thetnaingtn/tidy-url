@@ -1,6 +1,5 @@
-import { type MouseEventHandler, useRef, useState } from "react";
+import { type MouseEventHandler, useState } from "react";
 import {GithubCorner} from "./components/github-corner";
-import { validateURL } from "./util";
 import { tidyUrlServiceClient } from "./grpcweb";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -9,9 +8,6 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 function App() {
   const [data, setData] = useState('');
   const [longUrl, setLongUrl] = useState("");
-  const result = useRef<HTMLInputElement | null>(null);
-
-  const disableButton = !longUrl || !validateURL(longUrl);
 
   const handleTidyUp: MouseEventHandler<HTMLButtonElement> = async () => {
     const tidyUrlResponse = await tidyUrlServiceClient.makeTidyUrl({
