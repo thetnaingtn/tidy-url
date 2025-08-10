@@ -21,14 +21,16 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	TidyUrlService_MakeTidyUrl_FullMethodName   = "/api.v1.TidyUrlService/MakeTidyUrl"
 	TidyUrlService_ExpandTidyUrl_FullMethodName = "/api.v1.TidyUrlService/ExpandTidyUrl"
+	TidyUrlService_GetTidyUrl_FullMethodName    = "/api.v1.TidyUrlService/GetTidyUrl"
 )
 
 // TidyUrlServiceClient is the client API for TidyUrlService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TidyUrlServiceClient interface {
-	MakeTidyUrl(ctx context.Context, in *ShortenUrlRequest, opts ...grpc.CallOption) (*TidyUrl, error)
+	MakeTidyUrl(ctx context.Context, in *MakeTidyUrlRequest, opts ...grpc.CallOption) (*MakeTidyUrlResponse, error)
 	ExpandTidyUrl(ctx context.Context, in *ExpandTidyUrlRequest, opts ...grpc.CallOption) (*ExpandTidyUrlResponse, error)
+	GetTidyUrl(ctx context.Context, in *GetTidyUrlRequest, opts ...grpc.CallOption) (*TidyUrl, error)
 }
 
 type tidyUrlServiceClient struct {
@@ -39,9 +41,9 @@ func NewTidyUrlServiceClient(cc grpc.ClientConnInterface) TidyUrlServiceClient {
 	return &tidyUrlServiceClient{cc}
 }
 
-func (c *tidyUrlServiceClient) MakeTidyUrl(ctx context.Context, in *ShortenUrlRequest, opts ...grpc.CallOption) (*TidyUrl, error) {
+func (c *tidyUrlServiceClient) MakeTidyUrl(ctx context.Context, in *MakeTidyUrlRequest, opts ...grpc.CallOption) (*MakeTidyUrlResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TidyUrl)
+	out := new(MakeTidyUrlResponse)
 	err := c.cc.Invoke(ctx, TidyUrlService_MakeTidyUrl_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -59,12 +61,23 @@ func (c *tidyUrlServiceClient) ExpandTidyUrl(ctx context.Context, in *ExpandTidy
 	return out, nil
 }
 
+func (c *tidyUrlServiceClient) GetTidyUrl(ctx context.Context, in *GetTidyUrlRequest, opts ...grpc.CallOption) (*TidyUrl, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TidyUrl)
+	err := c.cc.Invoke(ctx, TidyUrlService_GetTidyUrl_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TidyUrlServiceServer is the server API for TidyUrlService service.
 // All implementations must embed UnimplementedTidyUrlServiceServer
 // for forward compatibility.
 type TidyUrlServiceServer interface {
-	MakeTidyUrl(context.Context, *ShortenUrlRequest) (*TidyUrl, error)
+	MakeTidyUrl(context.Context, *MakeTidyUrlRequest) (*MakeTidyUrlResponse, error)
 	ExpandTidyUrl(context.Context, *ExpandTidyUrlRequest) (*ExpandTidyUrlResponse, error)
+	GetTidyUrl(context.Context, *GetTidyUrlRequest) (*TidyUrl, error)
 	mustEmbedUnimplementedTidyUrlServiceServer()
 }
 
@@ -75,11 +88,14 @@ type TidyUrlServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedTidyUrlServiceServer struct{}
 
-func (UnimplementedTidyUrlServiceServer) MakeTidyUrl(context.Context, *ShortenUrlRequest) (*TidyUrl, error) {
+func (UnimplementedTidyUrlServiceServer) MakeTidyUrl(context.Context, *MakeTidyUrlRequest) (*MakeTidyUrlResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MakeTidyUrl not implemented")
 }
 func (UnimplementedTidyUrlServiceServer) ExpandTidyUrl(context.Context, *ExpandTidyUrlRequest) (*ExpandTidyUrlResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ExpandTidyUrl not implemented")
+}
+func (UnimplementedTidyUrlServiceServer) GetTidyUrl(context.Context, *GetTidyUrlRequest) (*TidyUrl, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTidyUrl not implemented")
 }
 func (UnimplementedTidyUrlServiceServer) mustEmbedUnimplementedTidyUrlServiceServer() {}
 func (UnimplementedTidyUrlServiceServer) testEmbeddedByValue()                        {}
@@ -103,7 +119,7 @@ func RegisterTidyUrlServiceServer(s grpc.ServiceRegistrar, srv TidyUrlServiceSer
 }
 
 func _TidyUrlService_MakeTidyUrl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ShortenUrlRequest)
+	in := new(MakeTidyUrlRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -115,7 +131,7 @@ func _TidyUrlService_MakeTidyUrl_Handler(srv interface{}, ctx context.Context, d
 		FullMethod: TidyUrlService_MakeTidyUrl_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TidyUrlServiceServer).MakeTidyUrl(ctx, req.(*ShortenUrlRequest))
+		return srv.(TidyUrlServiceServer).MakeTidyUrl(ctx, req.(*MakeTidyUrlRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -138,6 +154,24 @@ func _TidyUrlService_ExpandTidyUrl_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TidyUrlService_GetTidyUrl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTidyUrlRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TidyUrlServiceServer).GetTidyUrl(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TidyUrlService_GetTidyUrl_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TidyUrlServiceServer).GetTidyUrl(ctx, req.(*GetTidyUrlRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TidyUrlService_ServiceDesc is the grpc.ServiceDesc for TidyUrlService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +186,10 @@ var TidyUrlService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ExpandTidyUrl",
 			Handler:    _TidyUrlService_ExpandTidyUrl_Handler,
+		},
+		{
+			MethodName: "GetTidyUrl",
+			Handler:    _TidyUrlService_GetTidyUrl_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

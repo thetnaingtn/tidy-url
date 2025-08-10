@@ -4,11 +4,16 @@ package api.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
 option go_package = "gen/api/v1;v1";
 
-message ShortenUrlRequest {
+message MakeTidyUrlRequest {
   string long_url = 1;
+}
+
+message MakeTidyUrlResponse{
+  string tidy_url = 1;
 }
 
 message TidyUrl {
@@ -26,8 +31,12 @@ message ExpandTidyUrlResponse {
   string long_url = 1;
 }
 
+message GetTidyUrlRequest{
+  string id = 1;
+}
+
 service TidyUrlService {
-  rpc MakeTidyUrl(ShortenUrlRequest) returns (TidyUrl){
+  rpc MakeTidyUrl(MakeTidyUrlRequest) returns (MakeTidyUrlResponse){
     option (google.api.http) = {
         post: "/v1/tidy"
         body: "*"
@@ -37,6 +46,12 @@ service TidyUrlService {
   rpc ExpandTidyUrl(ExpandTidyUrlRequest) returns (ExpandTidyUrlResponse) {
     option (google.api.http) = {
       get: "/v1/expand/{id}"
+    };
+  }
+
+  rpc GetTidyUrl(GetTidyUrlRequest) returns (TidyUrl) {
+    option (google.api.http) = {
+      get: "/v1/tidy/{id}"
     };
   }
 }

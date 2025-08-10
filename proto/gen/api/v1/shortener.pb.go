@@ -10,6 +10,7 @@ import (
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	_ "google.golang.org/protobuf/types/known/emptypb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
@@ -23,27 +24,27 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type ShortenUrlRequest struct {
+type MakeTidyUrlRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	LongUrl       string                 `protobuf:"bytes,1,opt,name=long_url,json=longUrl,proto3" json:"long_url,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ShortenUrlRequest) Reset() {
-	*x = ShortenUrlRequest{}
+func (x *MakeTidyUrlRequest) Reset() {
+	*x = MakeTidyUrlRequest{}
 	mi := &file_api_v1_shortener_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ShortenUrlRequest) String() string {
+func (x *MakeTidyUrlRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ShortenUrlRequest) ProtoMessage() {}
+func (*MakeTidyUrlRequest) ProtoMessage() {}
 
-func (x *ShortenUrlRequest) ProtoReflect() protoreflect.Message {
+func (x *MakeTidyUrlRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_v1_shortener_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -55,14 +56,58 @@ func (x *ShortenUrlRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ShortenUrlRequest.ProtoReflect.Descriptor instead.
-func (*ShortenUrlRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use MakeTidyUrlRequest.ProtoReflect.Descriptor instead.
+func (*MakeTidyUrlRequest) Descriptor() ([]byte, []int) {
 	return file_api_v1_shortener_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *ShortenUrlRequest) GetLongUrl() string {
+func (x *MakeTidyUrlRequest) GetLongUrl() string {
 	if x != nil {
 		return x.LongUrl
+	}
+	return ""
+}
+
+type MakeTidyUrlResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TidyUrl       string                 `protobuf:"bytes,1,opt,name=tidy_url,json=tidyUrl,proto3" json:"tidy_url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MakeTidyUrlResponse) Reset() {
+	*x = MakeTidyUrlResponse{}
+	mi := &file_api_v1_shortener_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MakeTidyUrlResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MakeTidyUrlResponse) ProtoMessage() {}
+
+func (x *MakeTidyUrlResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_v1_shortener_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MakeTidyUrlResponse.ProtoReflect.Descriptor instead.
+func (*MakeTidyUrlResponse) Descriptor() ([]byte, []int) {
+	return file_api_v1_shortener_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *MakeTidyUrlResponse) GetTidyUrl() string {
+	if x != nil {
+		return x.TidyUrl
 	}
 	return ""
 }
@@ -79,7 +124,7 @@ type TidyUrl struct {
 
 func (x *TidyUrl) Reset() {
 	*x = TidyUrl{}
-	mi := &file_api_v1_shortener_proto_msgTypes[1]
+	mi := &file_api_v1_shortener_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -91,7 +136,7 @@ func (x *TidyUrl) String() string {
 func (*TidyUrl) ProtoMessage() {}
 
 func (x *TidyUrl) ProtoReflect() protoreflect.Message {
-	mi := &file_api_v1_shortener_proto_msgTypes[1]
+	mi := &file_api_v1_shortener_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -104,7 +149,7 @@ func (x *TidyUrl) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TidyUrl.ProtoReflect.Descriptor instead.
 func (*TidyUrl) Descriptor() ([]byte, []int) {
-	return file_api_v1_shortener_proto_rawDescGZIP(), []int{1}
+	return file_api_v1_shortener_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *TidyUrl) GetId() string {
@@ -144,7 +189,7 @@ type ExpandTidyUrlRequest struct {
 
 func (x *ExpandTidyUrlRequest) Reset() {
 	*x = ExpandTidyUrlRequest{}
-	mi := &file_api_v1_shortener_proto_msgTypes[2]
+	mi := &file_api_v1_shortener_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -156,7 +201,7 @@ func (x *ExpandTidyUrlRequest) String() string {
 func (*ExpandTidyUrlRequest) ProtoMessage() {}
 
 func (x *ExpandTidyUrlRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_v1_shortener_proto_msgTypes[2]
+	mi := &file_api_v1_shortener_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -169,7 +214,7 @@ func (x *ExpandTidyUrlRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExpandTidyUrlRequest.ProtoReflect.Descriptor instead.
 func (*ExpandTidyUrlRequest) Descriptor() ([]byte, []int) {
-	return file_api_v1_shortener_proto_rawDescGZIP(), []int{2}
+	return file_api_v1_shortener_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ExpandTidyUrlRequest) GetId() string {
@@ -188,7 +233,7 @@ type ExpandTidyUrlResponse struct {
 
 func (x *ExpandTidyUrlResponse) Reset() {
 	*x = ExpandTidyUrlResponse{}
-	mi := &file_api_v1_shortener_proto_msgTypes[3]
+	mi := &file_api_v1_shortener_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -200,7 +245,7 @@ func (x *ExpandTidyUrlResponse) String() string {
 func (*ExpandTidyUrlResponse) ProtoMessage() {}
 
 func (x *ExpandTidyUrlResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_v1_shortener_proto_msgTypes[3]
+	mi := &file_api_v1_shortener_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -213,7 +258,7 @@ func (x *ExpandTidyUrlResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExpandTidyUrlResponse.ProtoReflect.Descriptor instead.
 func (*ExpandTidyUrlResponse) Descriptor() ([]byte, []int) {
-	return file_api_v1_shortener_proto_rawDescGZIP(), []int{3}
+	return file_api_v1_shortener_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ExpandTidyUrlResponse) GetLongUrl() string {
@@ -223,13 +268,59 @@ func (x *ExpandTidyUrlResponse) GetLongUrl() string {
 	return ""
 }
 
+type GetTidyUrlRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTidyUrlRequest) Reset() {
+	*x = GetTidyUrlRequest{}
+	mi := &file_api_v1_shortener_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTidyUrlRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTidyUrlRequest) ProtoMessage() {}
+
+func (x *GetTidyUrlRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_v1_shortener_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTidyUrlRequest.ProtoReflect.Descriptor instead.
+func (*GetTidyUrlRequest) Descriptor() ([]byte, []int) {
+	return file_api_v1_shortener_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetTidyUrlRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
 var File_api_v1_shortener_proto protoreflect.FileDescriptor
 
 const file_api_v1_shortener_proto_rawDesc = "" +
 	"\n" +
-	"\x16api/v1/shortener.proto\x12\x06api.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\".\n" +
-	"\x11ShortenUrlRequest\x12\x19\n" +
-	"\blong_url\x18\x01 \x01(\tR\alongUrl\"\x90\x01\n" +
+	"\x16api/v1/shortener.proto\x12\x06api.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bgoogle/protobuf/empty.proto\"/\n" +
+	"\x12MakeTidyUrlRequest\x12\x19\n" +
+	"\blong_url\x18\x01 \x01(\tR\alongUrl\"0\n" +
+	"\x13MakeTidyUrlResponse\x12\x19\n" +
+	"\btidy_url\x18\x01 \x01(\tR\atidyUrl\"\x90\x01\n" +
 	"\aTidyUrl\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x19\n" +
 	"\blong_url\x18\x02 \x01(\tR\alongUrl\x12\x1f\n" +
@@ -240,10 +331,14 @@ const file_api_v1_shortener_proto_rawDesc = "" +
 	"\x14ExpandTidyUrlRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"2\n" +
 	"\x15ExpandTidyUrlResponse\x12\x19\n" +
-	"\blong_url\x18\x01 \x01(\tR\alongUrl2\xc7\x01\n" +
-	"\x0eTidyUrlService\x12N\n" +
-	"\vMakeTidyUrl\x12\x19.api.v1.ShortenUrlRequest\x1a\x0f.api.v1.TidyUrl\"\x13\x82\xd3\xe4\x93\x02\r:\x01*\"\b/v1/tidy\x12e\n" +
-	"\rExpandTidyUrl\x12\x1c.api.v1.ExpandTidyUrlRequest\x1a\x1d.api.v1.ExpandTidyUrlResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/v1/expand/{id}B\x83\x01\n" +
+	"\blong_url\x18\x01 \x01(\tR\alongUrl\"#\n" +
+	"\x11GetTidyUrlRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id2\xa5\x02\n" +
+	"\x0eTidyUrlService\x12[\n" +
+	"\vMakeTidyUrl\x12\x1a.api.v1.MakeTidyUrlRequest\x1a\x1b.api.v1.MakeTidyUrlResponse\"\x13\x82\xd3\xe4\x93\x02\r:\x01*\"\b/v1/tidy\x12e\n" +
+	"\rExpandTidyUrl\x12\x1c.api.v1.ExpandTidyUrlRequest\x1a\x1d.api.v1.ExpandTidyUrlResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/v1/expand/{id}\x12O\n" +
+	"\n" +
+	"GetTidyUrl\x12\x19.api.v1.GetTidyUrlRequest\x1a\x0f.api.v1.TidyUrl\"\x15\x82\xd3\xe4\x93\x02\x0f\x12\r/v1/tidy/{id}B\x83\x01\n" +
 	"\n" +
 	"com.api.v1B\x0eShortenerProtoP\x01Z,github.com/thetnaingtn/tidy-url/api/v1;apiv1\xa2\x02\x03AXX\xaa\x02\x06Api.V1\xca\x02\x06Api\\V1\xe2\x02\x12Api\\V1\\GPBMetadata\xea\x02\aApi::V1b\x06proto3"
 
@@ -259,22 +354,26 @@ func file_api_v1_shortener_proto_rawDescGZIP() []byte {
 	return file_api_v1_shortener_proto_rawDescData
 }
 
-var file_api_v1_shortener_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_api_v1_shortener_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_api_v1_shortener_proto_goTypes = []any{
-	(*ShortenUrlRequest)(nil),     // 0: api.v1.ShortenUrlRequest
-	(*TidyUrl)(nil),               // 1: api.v1.TidyUrl
-	(*ExpandTidyUrlRequest)(nil),  // 2: api.v1.ExpandTidyUrlRequest
-	(*ExpandTidyUrlResponse)(nil), // 3: api.v1.ExpandTidyUrlResponse
-	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
+	(*MakeTidyUrlRequest)(nil),    // 0: api.v1.MakeTidyUrlRequest
+	(*MakeTidyUrlResponse)(nil),   // 1: api.v1.MakeTidyUrlResponse
+	(*TidyUrl)(nil),               // 2: api.v1.TidyUrl
+	(*ExpandTidyUrlRequest)(nil),  // 3: api.v1.ExpandTidyUrlRequest
+	(*ExpandTidyUrlResponse)(nil), // 4: api.v1.ExpandTidyUrlResponse
+	(*GetTidyUrlRequest)(nil),     // 5: api.v1.GetTidyUrlRequest
+	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
 }
 var file_api_v1_shortener_proto_depIdxs = []int32{
-	4, // 0: api.v1.TidyUrl.created_at:type_name -> google.protobuf.Timestamp
-	0, // 1: api.v1.TidyUrlService.MakeTidyUrl:input_type -> api.v1.ShortenUrlRequest
-	2, // 2: api.v1.TidyUrlService.ExpandTidyUrl:input_type -> api.v1.ExpandTidyUrlRequest
-	1, // 3: api.v1.TidyUrlService.MakeTidyUrl:output_type -> api.v1.TidyUrl
-	3, // 4: api.v1.TidyUrlService.ExpandTidyUrl:output_type -> api.v1.ExpandTidyUrlResponse
-	3, // [3:5] is the sub-list for method output_type
-	1, // [1:3] is the sub-list for method input_type
+	6, // 0: api.v1.TidyUrl.created_at:type_name -> google.protobuf.Timestamp
+	0, // 1: api.v1.TidyUrlService.MakeTidyUrl:input_type -> api.v1.MakeTidyUrlRequest
+	3, // 2: api.v1.TidyUrlService.ExpandTidyUrl:input_type -> api.v1.ExpandTidyUrlRequest
+	5, // 3: api.v1.TidyUrlService.GetTidyUrl:input_type -> api.v1.GetTidyUrlRequest
+	1, // 4: api.v1.TidyUrlService.MakeTidyUrl:output_type -> api.v1.MakeTidyUrlResponse
+	4, // 5: api.v1.TidyUrlService.ExpandTidyUrl:output_type -> api.v1.ExpandTidyUrlResponse
+	2, // 6: api.v1.TidyUrlService.GetTidyUrl:output_type -> api.v1.TidyUrl
+	4, // [4:7] is the sub-list for method output_type
+	1, // [1:4] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
 	1, // [1:1] is the sub-list for extension extendee
 	0, // [0:1] is the sub-list for field type_name
@@ -291,7 +390,7 @@ func file_api_v1_shortener_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_v1_shortener_proto_rawDesc), len(file_api_v1_shortener_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
