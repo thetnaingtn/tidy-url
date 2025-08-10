@@ -52,6 +52,9 @@ func main() {
 
 	go func() {
 		<-c
+		if err := s.Shutdown(ctx); err != nil {
+			slog.Error("failed to shutdown server", "error", err)
+		}
 		cancel()
 	}()
 

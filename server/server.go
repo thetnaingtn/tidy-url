@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"net"
 	"net/http"
+	"time"
 
 	grpcrecovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	"github.com/soheilhy/cmux"
@@ -79,6 +80,24 @@ func (s *Server) Start() error {
 			slog.Error("Failed to start cmux server", "error", err)
 		}
 	}()
+
+	return nil
+}
+
+func (s *Server) Shutdown(ctx context.Context) error {
+	ctx, cancel := context.WithTimeout(ctx, time.Second*20)
+	defer cancel()
+	slog.Info("Shutting down tidy-url server...")
+	if err := s.server.Shutdown(ctx); err != nil {
+		if err != http.ErrServerClosed {
+			slog.Error("Failed to shutdown HTTP server", "error", err)
+			return err
+		}
+	}
+
+	s.grpcServer.GracefulStop()
+	s.Store.Close()
+	slog.Info("tidy-url server shutdown gracefully")
 
 	return nil
 }

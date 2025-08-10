@@ -31,3 +31,7 @@ func NewDB(cfg *config.Config) (*DB, error) {
 		config: cfg,
 	}, nil
 }
+
+func (d *DB) Close() error {
+	return d.db.Close()
+}

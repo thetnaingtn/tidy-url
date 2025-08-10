@@ -15,3 +15,10 @@ func NewStore(config *config.Config, driver Driver) *Store {
 		driver: driver,
 	}
 }
+
+func (s *Store) Close() error {
+	if s.driver == nil {
+		return nil
+	}
+	return s.driver.Close()
+}
