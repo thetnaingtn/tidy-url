@@ -19,7 +19,7 @@ export default defineConfig({
         target: devProxyServer,
         xfwd: true,
       },
-      "^/memos.api.v1": {
+      "^/api.v1.TidyUrlService": {
         target: devProxyServer,
         xfwd: true,
       },
