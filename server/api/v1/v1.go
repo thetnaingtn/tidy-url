@@ -14,6 +14,7 @@ import (
 	"github.com/thetnaingtn/tidy-url/store"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/protobuf/proto"
 )
 
 type APIV1Service struct {
@@ -46,7 +47,9 @@ func (s *APIV1Service) RegisterGateway(ctx context.Context, mux *http.ServeMux) 
 		return err
 	}
 
-	gwmux := runtime.NewServeMux()
+	gwmux := runtime.NewServeMux(
+		runtime.WithForwardResponseOption(s.redirectToExpandUrl),
+	)
 
 	if err := v1pb.RegisterTidyUrlServiceHandler(ctx, gwmux, conn); err != nil {
 		return err
@@ -77,6 +80,16 @@ func (s *APIV1Service) RegisterGateway(ctx context.Context, mux *http.ServeMux) 
 	}
 
 	mux.Handle("/", http.HandlerFunc(handler))
+
+	return nil
+}
+
+func (s *APIV1Service) redirectToExpandUrl(ctx context.Context, w http.ResponseWriter, p proto.Message) error {
+	resp, ok := p.(*v1pb.ExpandTidyUrlResponse)
+	if ok {
+		w.Header().Set("Location", resp.LongUrl)
+		w.WriteHeader(http.StatusPermanentRedirect)
+	}
 
 	return nil
 }
