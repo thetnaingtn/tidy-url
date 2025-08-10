@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package api.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "gen/api/v1;v1";
+
+message MakeTidyUrlRequest {
+  string long_url = 1;
+}
+
+message MakeTidyUrlResponse{
+  string tidy_url = 1;
+}
+
+message TidyUrl {
+  string id = 1;
+  string long_url = 2;
+  string encoded_str = 3;
+  google.protobuf.Timestamp created_at = 4;
+}
+
+message ExpandTidyUrlRequest {
+  string id = 1;
+} 
+
+message ExpandTidyUrlResponse {
+  string long_url = 1;
+}
+
+message GetTidyUrlRequest{
+  string id = 1;
+}
+
+service TidyUrlService {
+  rpc MakeTidyUrl(MakeTidyUrlRequest) returns (MakeTidyUrlResponse){
+    option (google.api.http) = {
+        post: "/v1/tidy"
+        body: "*"
+    };
+  }
+
+  rpc ExpandTidyUrl(ExpandTidyUrlRequest) returns (ExpandTidyUrlResponse) {
+    option (google.api.http) = {
+      get: "/v1/expand/{id}"
+    };
+  }
+
+  rpc GetTidyUrl(GetTidyUrlRequest) returns (TidyUrl) {
+    option (google.api.http) = {
+      get: "/v1/tidy/{id}"
+    };
+  }
+}
