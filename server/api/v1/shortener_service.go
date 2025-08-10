@@ -2,7 +2,9 @@ package v1
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
+	"log"
 
 	v1pb "github.com/thetnaingtn/tidy-url/proto/gen/api/v1"
 	"google.golang.org/grpc/codes"
@@ -16,7 +18,8 @@ func (s *APIV1Service) MakeTidyUrl(ctx context.Context, req *v1pb.MakeTidyUrlReq
 	}
 
 	tidyUrl, err := s.store.GetTidyUrlByOriginalUrl(ctx, longUrl)
-	if err != nil {
+	if err != nil && err != sql.ErrNoRows {
+		log.Println(err)
 		return nil, status.Error(codes.Internal, "failed to retrieve tidy URL")
 	}
 
