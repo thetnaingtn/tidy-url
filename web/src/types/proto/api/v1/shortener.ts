@@ -10,8 +10,12 @@ import { Timestamp } from "../../google/protobuf/timestamp";
 
 export const protobufPackage = "api.v1";
 
-export interface ShortenUrlRequest {
+export interface MakeTidyUrlRequest {
   longUrl: string;
+}
+
+export interface MakeTidyUrlResponse {
+  tidyUrl: string;
 }
 
 export interface TidyUrl {
@@ -29,22 +33,26 @@ export interface ExpandTidyUrlResponse {
   longUrl: string;
 }
 
-function createBaseShortenUrlRequest(): ShortenUrlRequest {
+export interface GetTidyUrlRequest {
+  id: string;
+}
+
+function createBaseMakeTidyUrlRequest(): MakeTidyUrlRequest {
   return { longUrl: "" };
 }
 
-export const ShortenUrlRequest: MessageFns<ShortenUrlRequest> = {
-  encode(message: ShortenUrlRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const MakeTidyUrlRequest: MessageFns<MakeTidyUrlRequest> = {
+  encode(message: MakeTidyUrlRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.longUrl !== "") {
       writer.uint32(10).string(message.longUrl);
     }
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): ShortenUrlRequest {
+  decode(input: BinaryReader | Uint8Array, length?: number): MakeTidyUrlRequest {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseShortenUrlRequest();
+    const message = createBaseMakeTidyUrlRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -65,12 +73,58 @@ export const ShortenUrlRequest: MessageFns<ShortenUrlRequest> = {
     return message;
   },
 
-  create(base?: DeepPartial<ShortenUrlRequest>): ShortenUrlRequest {
-    return ShortenUrlRequest.fromPartial(base ?? {});
+  create(base?: DeepPartial<MakeTidyUrlRequest>): MakeTidyUrlRequest {
+    return MakeTidyUrlRequest.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<ShortenUrlRequest>): ShortenUrlRequest {
-    const message = createBaseShortenUrlRequest();
+  fromPartial(object: DeepPartial<MakeTidyUrlRequest>): MakeTidyUrlRequest {
+    const message = createBaseMakeTidyUrlRequest();
     message.longUrl = object.longUrl ?? "";
+    return message;
+  },
+};
+
+function createBaseMakeTidyUrlResponse(): MakeTidyUrlResponse {
+  return { tidyUrl: "" };
+}
+
+export const MakeTidyUrlResponse: MessageFns<MakeTidyUrlResponse> = {
+  encode(message: MakeTidyUrlResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.tidyUrl !== "") {
+      writer.uint32(10).string(message.tidyUrl);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): MakeTidyUrlResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMakeTidyUrlResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.tidyUrl = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  create(base?: DeepPartial<MakeTidyUrlResponse>): MakeTidyUrlResponse {
+    return MakeTidyUrlResponse.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<MakeTidyUrlResponse>): MakeTidyUrlResponse {
+    const message = createBaseMakeTidyUrlResponse();
+    message.tidyUrl = object.tidyUrl ?? "";
     return message;
   },
 };
@@ -249,6 +303,52 @@ export const ExpandTidyUrlResponse: MessageFns<ExpandTidyUrlResponse> = {
   },
 };
 
+function createBaseGetTidyUrlRequest(): GetTidyUrlRequest {
+  return { id: "" };
+}
+
+export const GetTidyUrlRequest: MessageFns<GetTidyUrlRequest> = {
+  encode(message: GetTidyUrlRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): GetTidyUrlRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGetTidyUrlRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  create(base?: DeepPartial<GetTidyUrlRequest>): GetTidyUrlRequest {
+    return GetTidyUrlRequest.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<GetTidyUrlRequest>): GetTidyUrlRequest {
+    const message = createBaseGetTidyUrlRequest();
+    message.id = object.id ?? "";
+    return message;
+  },
+};
+
 export type TidyUrlServiceDefinition = typeof TidyUrlServiceDefinition;
 export const TidyUrlServiceDefinition = {
   name: "TidyUrlService",
@@ -256,9 +356,9 @@ export const TidyUrlServiceDefinition = {
   methods: {
     makeTidyUrl: {
       name: "MakeTidyUrl",
-      requestType: ShortenUrlRequest,
+      requestType: MakeTidyUrlRequest,
       requestStream: false,
-      responseType: TidyUrl,
+      responseType: MakeTidyUrlResponse,
       responseStream: false,
       options: {
         _unknownFields: { 578365826: [new Uint8Array([13, 58, 1, 42, 34, 8, 47, 118, 49, 47, 116, 105, 100, 121])] },
@@ -275,6 +375,18 @@ export const TidyUrlServiceDefinition = {
           578365826: [
             new Uint8Array([17, 18, 15, 47, 118, 49, 47, 101, 120, 112, 97, 110, 100, 47, 123, 105, 100, 125]),
           ],
+        },
+      },
+    },
+    getTidyUrl: {
+      name: "GetTidyUrl",
+      requestType: GetTidyUrlRequest,
+      requestStream: false,
+      responseType: TidyUrl,
+      responseStream: false,
+      options: {
+        _unknownFields: {
+          578365826: [new Uint8Array([15, 18, 13, 47, 118, 49, 47, 116, 105, 100, 121, 47, 123, 105, 100, 125])],
         },
       },
     },
