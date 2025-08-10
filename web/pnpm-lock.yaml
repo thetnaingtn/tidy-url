@@ -13,7 +13,7 @@ dependencies:
     version: 1.2.3(@types/react@19.1.9)(react@19.1.1)
   '@tailwindcss/vite':
     specifier: 4.1.11
-    version: 4.1.11(vite@6.0.0)
+    version: 4.1.11(vite@6.1.6)
   class-variance-authority:
     specifier: ^0.7.1
     version: 0.7.1
@@ -60,7 +60,7 @@ devDependencies:
     version: 19.1.7(@types/react@19.1.9)
   '@vitejs/plugin-react':
     specifier: 5.0.0
-    version: 5.0.0(vite@6.0.0)
+    version: 5.0.0(vite@6.1.6)
   eslint:
     specifier: ^9.30.1
     version: 9.32.0
@@ -83,8 +83,8 @@ devDependencies:
     specifier: ^8.35.1
     version: 8.39.0(eslint@9.32.0)(typescript@5.8.3)
   vite:
-    specifier: 6.0.0
-    version: 6.0.0(@types/node@24.2.1)
+    specifier: 6.1.6
+    version: 6.1.6(@types/node@24.2.1)
 
 packages:
 
@@ -1251,7 +1251,7 @@ packages:
       '@tailwindcss/oxide-win32-x64-msvc': 4.1.11
     dev: false
 
-  /@tailwindcss/vite@4.1.11(vite@6.0.0):
+  /@tailwindcss/vite@4.1.11(vite@6.1.6):
     resolution: {integrity: sha512-RHYhrR3hku0MJFRV+fN2gNbDNEh3dwKvY8XJvTxCSXeMOsCRSr+uKvDWQcbizrHgjML6ZmTE5OwMrl5wKcujCw==}
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7
@@ -1259,7 +1259,7 @@ packages:
       '@tailwindcss/node': 4.1.11
       '@tailwindcss/oxide': 4.1.11
       tailwindcss: 4.1.11
-      vite: 6.0.0(@types/node@24.2.1)
+      vite: 6.1.6(@types/node@24.2.1)
     dev: false
 
   /@types/babel__core@7.20.5:
@@ -1457,7 +1457,7 @@ packages:
       eslint-visitor-keys: 4.2.1
     dev: true
 
-  /@vitejs/plugin-react@5.0.0(vite@6.0.0):
+  /@vitejs/plugin-react@5.0.0(vite@6.1.6):
     resolution: {integrity: sha512-Jx9JfsTa05bYkS9xo0hkofp2dCmp1blrKjw9JONs5BTHOvJCgLbaPSuZLGSVJW6u2qe0tc4eevY0+gSNNi0YCw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
@@ -1469,7 +1469,7 @@ packages:
       '@rolldown/pluginutils': 1.0.0-beta.30
       '@types/babel__core': 7.20.5
       react-refresh: 0.17.0
-      vite: 6.0.0(@types/node@24.2.1)
+      vite: 6.1.6(@types/node@24.2.1)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2549,8 +2549,8 @@ packages:
       punycode: 2.3.1
     dev: true
 
-  /vite@6.0.0(@types/node@24.2.1):
-    resolution: {integrity: sha512-Q2+5yQV79EdnpbNxjD3/QHVMCBaQ3Kpd4/uL51UGuh38bIIM+s4o3FqyCzRvTRwFb+cWIUeZvaWwS9y2LD2qeQ==}
+  /vite@6.1.6(@types/node@24.2.1):
+    resolution: {integrity: sha512-u+jokLMwHVFUoUkfL+m/1hzucejL2639g9QXcrRdtN3WPHfW7imI83V96Oh1R0xVZqDjvcgp+7S8bSQpdVlmPA==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
     peerDependencies:
