@@ -10,7 +10,7 @@ var _ store.Driver = (*DB)(nil)
 
 func (driver *DB) Create(ctx context.Context, t *store.TidyUrl) error {
 	stmt := `
-		INSERT INTO tidy_urls (long_url, encoded_str)
+		INSERT INTO tidy_url (long_url, encoded_str)
 		VALUES ($1, $2)
 		RETURNING id, created_at
 	`
